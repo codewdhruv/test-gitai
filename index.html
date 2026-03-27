@@ -287,7 +287,7 @@
             <div class="player-card blue" id="player-blue">Blue</div>
         </div>
 
-        <div class="message" id="message">Roll the dice to start!</div>
+        <div class="message" id="message" role="status" aria-live="polite">Roll the dice to start!</div>
 
         <div class="controls">
             <div class="dice-container">
@@ -303,6 +303,12 @@
     <script>
         const PLAYERS = ['red', 'green', 'yellow', 'blue'];
         const PIECES_PER_PLAYER = 4;
+        const SAFE_SPOTS = [
+            { row: 6, col: 1 }, { row: 1, col: 6 },
+            { row: 2, col: 8 }, { row: 6, col: 12 },
+            { row: 8, col: 13 }, { row: 12, col: 8 },
+            { row: 13, col: 6 }, { row: 8, col: 2 }
+        ];
         
         const HOME_POSITIONS = {
             red: { row: 0, col: 0 },
@@ -369,6 +375,10 @@
             createBoard();
             initPieces();
             renderPieces();
+        }
+
+        function isSafeSpot(row, col) {
+            return SAFE_SPOTS.some(spot => spot.row === row && spot.col === col);
         }
 
         /**
@@ -442,14 +452,7 @@
                         else if (row === 7 && col >= 9 && col <= 13) cell.classList.add('path-yellow');
                         else if (col === 7 && row >= 9 && row <= 13) cell.classList.add('path-blue');
 
-                        const safeSpots = [
-                            {row: 6, col: 1}, {row: 1, col: 6},
-                            {row: 2, col: 8}, {row: 6, col: 12},
-                            {row: 8, col: 13}, {row: 12, col: 8},
-                            {row: 13, col: 6}, {row: 8, col: 2}
-                        ];
-                        
-                        if (safeSpots.some(s => s.row === row && s.col === col)) {
+                        if (isSafeSpot(row, col)) {
                             cell.classList.add('safe-zone');
                         }
                     }
@@ -602,14 +605,7 @@
         }
 
         function checkCapture(movingPiece, position) {
-            const safeSpots = [
-                {row: 6, col: 1}, {row: 1, col: 6},
-                {row: 2, col: 8}, {row: 6, col: 12},
-                {row: 8, col: 13}, {row: 12, col: 8},
-                {row: 13, col: 6}, {row: 8, col: 2}
-            ];
-
-            if (safeSpots.some(s => s.row === position.row && s.col === position.col)) return;
+            if (isSafeSpot(position.row, position.col)) return;
 
             PLAYERS.forEach(color => {
                 if (color === movingPiece.color) return;
