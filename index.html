@@ -611,6 +611,21 @@
         }
 
         initGame();
+
+        /**
+         * Keyboard shortcuts
+         * Space: Roll dice
+         * R: Reset game
+         */
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                rollDice();
+            }
+            if (e.key.toLowerCase() === 'r') {
+                resetGame();
+            }
+        });
     </script>
 </body>
 </html>
