@@ -1,0 +1,24 @@
+readme.txt
+  1cb4ea90a98ca95f 1-1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "harness_sei_version": "0.1.0",
+  "base_commit_sha": "9648d42777ce99ec627bbdb942427cda4b11a080",
+  "prompts": {
+    "1cb4ea90a98ca95f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "4895f9c9-0852-4fa4-83d5-0d453581cd3f",
+        "model": "unknown"
+      },
+      "human_author": "codewdhruv <me@codewdhruv.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": null
+    }
+  }
+}
