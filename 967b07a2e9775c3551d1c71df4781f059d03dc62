@@ -1,0 +1,24 @@
+index.html
+  d3d08169e1b77ebe 34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "967b07a2e9775c3551d1c71df4781f059d03dc62",
+  "prompts": {
+    "d3d08169e1b77ebe": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "3a8d78d9-8f5f-4847-b978-f0d7a1f15548",
+        "model": "default"
+      },
+      "human_author": "codewdhruv <me@codewdhruv.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/9e5eec8ba04da011b12ecf933333afa83c36a6ecc026ada7a86fadaf6ea3861f"
+    }
+  }
+}
