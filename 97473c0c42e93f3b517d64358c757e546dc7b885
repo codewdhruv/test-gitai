@@ -1,0 +1,24 @@
+notes-main.txt
+  15fd255e43e8a67d 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "harness_sei_version": "0.1.0",
+  "base_commit_sha": "97473c0c42e93f3b517d64358c757e546dc7b885",
+  "prompts": {
+    "15fd255e43e8a67d": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "972e2610-5c87-486a-82f7-67ae45fdf599",
+        "model": "unknown"
+      },
+      "human_author": "codewdhruv <me@codewdhruv.com>",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 0,
+      "accepted_lines": 2,
+      "overriden_lines": 0,
+      "messages_url": null
+    }
+  }
+}
