@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ludo Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        h1 {
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 2.5rem;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(15, 40px);
+            grid-template-rows: repeat(15, 40px);
+            gap: 1px;
+            background: #2d2d2d;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .cell {
+            width: 40px;
+            height: 40px;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            position: relative;
+        }
+
+        .red-home {
+            background: #e74c3c;
+        }
+
+        .green-home {
+            background: #27ae60;
+        }
+
+        .yellow-home {
+            background: #f1c40f;
+        }
+
+        .blue-home {
+            background: #3498db;
+        }
+
+        .red-start {
+            background: #ffcccc;
+        }
+
+        .green-start {
+            background: #ccffcc;
+        }
+
+        .yellow-start {
+            background: #ffffcc;
+        }
+
+        .blue-start {
+            background: #ccccff;
+        }
+
+        .center {
+            background: linear-gradient(45deg, #e74c3c 25%, #27ae60 25%, #27ae60 50%, #f1c40f 50%, #f1c40f 75%, #3498db 75%);
+        }
+
+        .safe-zone {
+            position: relative;
+        }
+
+        .safe-zone::after {
+            content: '★';
+            position: absolute;
+            font-size: 16px;
+            color: rgba(0,0,0,0.3);
+        }
+
+        .home-base {
+            border-radius: 50%;
+            margin: 5px;
+        }
+
+        .piece {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 3px solid rgba(255,255,255,0.8);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .piece:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        .piece.red {
+            background: radial-gradient(circle at 30% 30%, #ff6b6b, #c0392b);
+        }
+
+        .piece.green {
+            background: radial-gradient(circle at 30% 30%, #6bff6b, #1e8449);
+        }
+
+        .piece.yellow {
+            background: radial-gradient(circle at 30% 30%, #ffff6b, #d4ac0d);
+        }
+
+        .piece.blue {
+            background: radial-gradient(circle at 30% 30%, #6b6bff, #2471a3);
+        }
+
+        .piece.active {
+            animation: pulse 0.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .dice-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dice {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.1s;
+        }
+
+        .dice:hover {
+            transform: scale(1.05);
+        }
+
+        .dice.rolling {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+        }
+
+        .player-info {
+            display: flex;
+            gap: 15px;
+        }
+
+        .player-card {
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            opacity: 0.5;
+            transition: all 0.3s;
+        }
+
+        .player-card.active {
+            opacity: 1;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        .player-card.red { background: #e74c3c; }
+        .player-card.green { background: #27ae60; }
+        .player-card.yellow { background: #f1c40f; color: #333; }
+        .player-card.blue { background: #3498db; }
+
+        .message {
+            color: white;
+            font-size: 1.2rem;
+            min-height: 30px;
+        }
+
+        .home-area {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 8px;
+            padding: 15px;
+        }
+
+        .home-spot {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .path-red { background: #ffcccc; }
+        .path-green { background: #ccffcc; }
+        .path-yellow { background: #ffffcc; }
+        .path-blue { background: #ccccff; }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Ludo</h1>
+        
+        <div class="player-info">
+            <div class="player-card red active" id="player-red">Red</div>
+            <div class="player-card green" id="player-green">Green</div>
+            <div class="player-card yellow" id="player-yellow">Yellow</div>
+            <div class="player-card blue" id="player-blue">Blue</div>
+        </div>
+
+        <div class="message" id="message">Roll the dice to start!</div>
+
+        <div class="controls">
+            <div class="dice-container">
+                <div class="dice" id="dice" onclick="rollDice()">🎲</div>
+                <span style="color: white;">Click to roll</span>
+            </div>
+        </div>
+
+        <div class="board" id="board"></div>
+    </div>
+
+    <script>
+        const PLAYERS = ['red', 'green', 'yellow', 'blue'];
+        const PIECES_PER_PLAYER = 4;
+        
+        const HOME_POSITIONS = {
+            red: { row: 0, col: 0 },
+            green: { row: 0, col: 9 },
+            yellow: { row: 9, col: 9 },
+            blue: { row: 9, col: 0 }
+        };
+
+        const START_POSITIONS = {
+            red: { row: 6, col: 1 },
+            green: { row: 1, col: 8 },
+            yellow: { row: 8, col: 13 },
+            blue: { row: 13, col: 6 }
+        };
+
+        const PATH = {
+            red: generatePath('red'),
+            green: generatePath('green'),
+            yellow: generatePath('yellow'),
+            blue: generatePath('blue')
+        };
+
+        let currentPlayer = 0;
+        let diceValue = 0;
+        let canMove = false;
+        let pieces = {};
+
+        function generatePath(color) {
+            const commonPath = [
+                {row: 6, col: 1}, {row: 6, col: 2}, {row: 6, col: 3}, {row: 6, col: 4}, {row: 6, col: 5},
+                {row: 5, col: 6}, {row: 4, col: 6}, {row: 3, col: 6}, {row: 2, col: 6}, {row: 1, col: 6}, {row: 0, col: 6},
+                {row: 0, col: 7}, {row: 0, col: 8},
+                {row: 1, col: 8}, {row: 2, col: 8}, {row: 3, col: 8}, {row: 4, col: 8}, {row: 5, col: 8},
+                {row: 6, col: 9}, {row: 6, col: 10}, {row: 6, col: 11}, {row: 6, col: 12}, {row: 6, col: 13}, {row: 6, col: 14},
+                {row: 7, col: 14}, {row: 8, col: 14},
+                {row: 8, col: 13}, {row: 8, col: 12}, {row: 8, col: 11}, {row: 8, col: 10}, {row: 8, col: 9},
+                {row: 9, col: 8}, {row: 10, col: 8}, {row: 11, col: 8}, {row: 12, col: 8}, {row: 13, col: 8}, {row: 14, col: 8},
+                {row: 14, col: 7}, {row: 14, col: 6},
+                {row: 13, col: 6}, {row: 12, col: 6}, {row: 11, col: 6}, {row: 10, col: 6}, {row: 9, col: 6},
+                {row: 8, col: 5}, {row: 8, col: 4}, {row: 8, col: 3}, {row: 8, col: 2}, {row: 8, col: 1}, {row: 8, col: 0},
+                {row: 7, col: 0}, {row: 6, col: 0}
+            ];
+
+            const homePaths = {
+                red: [{row: 7, col: 1}, {row: 7, col: 2}, {row: 7, col: 3}, {row: 7, col: 4}, {row: 7, col: 5}, {row: 7, col: 6}],
+                green: [{row: 1, col: 7}, {row: 2, col: 7}, {row: 3, col: 7}, {row: 4, col: 7}, {row: 5, col: 7}, {row: 6, col: 7}],
+                yellow: [{row: 7, col: 13}, {row: 7, col: 12}, {row: 7, col: 11}, {row: 7, col: 10}, {row: 7, col: 9}, {row: 7, col: 8}],
+                blue: [{row: 13, col: 7}, {row: 12, col: 7}, {row: 11, col: 7}, {row: 10, col: 7}, {row: 9, col: 7}, {row: 8, col: 7}]
+            };
+
+            const startIndex = {red: 0, green: 13, yellow: 26, blue: 39};
+            const path = [];
+            
+            for (let i = 0; i < 51; i++) {
+                path.push(commonPath[(startIndex[color] + i) % 52]);
+            }
+            
+            path.push(...homePaths[color]);
+            
+            return path;
+        }
+
+        function initGame() {
+            createBoard();
+            initPieces();
+            renderPieces();
+        }
+
+        function createBoard() {
+            const board = document.getElementById('board');
+            board.innerHTML = '';
+
+            for (let row = 0; row < 15; row++) {
+                for (let col = 0; col < 15; col++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+
+                    if (row < 6 && col < 6) {
+                        cell.classList.add('red-home');
+                        if (row >= 1 && row <= 4 && col >= 1 && col <= 4) {
+                            if ((row === 1 || row === 4) && (col === 1 || col === 4)) {
+                                cell.innerHTML = '<div class="home-spot"></div>';
+                                cell.dataset.homeSpot = 'red';
+                            }
+                        }
+                    }
+                    else if (row < 6 && col > 8) {
+                        cell.classList.add('green-home');
+                        if (row >= 1 && row <= 4 && col >= 10 && col <= 13) {
+                            if ((row === 1 || row === 4) && (col === 10 || col === 13)) {
+                                cell.innerHTML = '<div class="home-spot"></div>';
+                                cell.dataset.homeSpot = 'green';
+                            }
+                        }
+                    }
+                    else if (row > 8 && col > 8) {
+                        cell.classList.add('yellow-home');
+                        if (row >= 10 && row <= 13 && col >= 10 && col <= 13) {
+                            if ((row === 10 || row === 13) && (col === 10 || col === 13)) {
+                                cell.innerHTML = '<div class="home-spot"></div>';
+                                cell.dataset.homeSpot = 'yellow';
+                            }
+                        }
+                    }
+                    else if (row > 8 && col < 6) {
+                        cell.classList.add('blue-home');
+                        if (row >= 10 && row <= 13 && col >= 1 && col <= 4) {
+                            if ((row === 10 || row === 13) && (col === 1 || col === 4)) {
+                                cell.innerHTML = '<div class="home-spot"></div>';
+                                cell.dataset.homeSpot = 'blue';
+                            }
+                        }
+                    }
+                    else if (row >= 6 && row <= 8 && col >= 6 && col <= 8) {
+                        cell.classList.add('center');
+                    }
+                    else {
+                        if (row === 7 && col >= 1 && col <= 5) cell.classList.add('path-red');
+                        else if (col === 7 && row >= 1 && row <= 5) cell.classList.add('path-green');
+                        else if (row === 7 && col >= 9 && col <= 13) cell.classList.add('path-yellow');
+                        else if (col === 7 && row >= 9 && row <= 13) cell.classList.add('path-blue');
+
+                        const safeSpots = [
+                            {row: 6, col: 1}, {row: 1, col: 6},
+                            {row: 2, col: 8}, {row: 6, col: 12},
+                            {row: 8, col: 13}, {row: 12, col: 8},
+                            {row: 13, col: 6}, {row: 8, col: 2}
+                        ];
+                        
+                        if (safeSpots.some(s => s.row === row && s.col === col)) {
+                            cell.classList.add('safe-zone');
+                        }
+                    }
+
+                    board.appendChild(cell);
+                }
+            }
+        }
+
+        function initPieces() {
+            pieces = {};
+            PLAYERS.forEach(color => {
+                pieces[color] = [];
+                for (let i = 0; i < PIECES_PER_PLAYER; i++) {
+                    pieces[color].push({
+                        id: `${color}-${i}`,
+                        color: color,
+                        position: -1,
+                        isHome: true,
+                        isFinished: false,
+                        homeIndex: i
+                    });
+                }
+            });
+        }
+
+        function getHomeSpotPosition(color, index) {
+            const positions = {
+                red: [{row: 1, col: 1}, {row: 1, col: 4}, {row: 4, col: 1}, {row: 4, col: 4}],
+                green: [{row: 1, col: 10}, {row: 1, col: 13}, {row: 4, col: 10}, {row: 4, col: 13}],
+                yellow: [{row: 10, col: 10}, {row: 10, col: 13}, {row: 13, col: 10}, {row: 13, col: 13}],
+                blue: [{row: 10, col: 1}, {row: 10, col: 4}, {row: 13, col: 1}, {row: 13, col: 4}]
+            };
+            return positions[color][index];
+        }
+
+        function renderPieces() {
+            document.querySelectorAll('.piece').forEach(p => p.remove());
+
+            PLAYERS.forEach(color => {
+                pieces[color].forEach((piece, index) => {
+                    if (piece.isFinished) return;
+
+                    const pieceEl = document.createElement('div');
+                    pieceEl.className = `piece ${color}`;
+                    pieceEl.dataset.pieceId = piece.id;
+                    pieceEl.onclick = () => movePiece(piece);
+
+                    let cell;
+                    if (piece.isHome) {
+                        const pos = getHomeSpotPosition(color, piece.homeIndex);
+                        cell = document.querySelector(`.cell[data-row="${pos.row}"][data-col="${pos.col}"]`);
+                    } else {
+                        const pathPos = PATH[color][piece.position];
+                        cell = document.querySelector(`.cell[data-row="${pathPos.row}"][data-col="${pathPos.col}"]`);
+                    }
+
+                    if (cell) {
+                        cell.appendChild(pieceEl);
+                    }
+
+                    if (canMove && color === PLAYERS[currentPlayer]) {
+                        if ((piece.isHome && diceValue === 6) || (!piece.isHome && !piece.isFinished)) {
+                            pieceEl.classList.add('active');
+                        }
+                    }
+                });
+            });
+        }
+
+        function rollDice() {
+            if (canMove) return;
+
+            const dice = document.getElementById('dice');
+            dice.classList.add('rolling');
+            
+            setTimeout(() => {
+                diceValue = Math.floor(Math.random() * 6) + 1;
+                dice.textContent = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'][diceValue - 1];
+                dice.classList.remove('rolling');
+                
+                canMove = true;
+                const currentColor = PLAYERS[currentPlayer];
+                
+                const hasValidMove = pieces[currentColor].some(piece => {
+                    if (piece.isFinished) return false;
+                    if (piece.isHome && diceValue === 6) return true;
+                    if (!piece.isHome && piece.position + diceValue <= 56) return true;
+                    return false;
+                });
+
+                if (!hasValidMove) {
+                    document.getElementById('message').textContent = `${currentColor.toUpperCase()} rolled ${diceValue} - No valid moves!`;
+                    setTimeout(() => {
+                        canMove = false;
+                        nextPlayer();
+                    }, 1000);
+                } else {
+                    document.getElementById('message').textContent = `${currentColor.toUpperCase()} rolled ${diceValue} - Select a piece!`;
+                    renderPieces();
+                }
+            }, 500);
+        }
+
+        function movePiece(piece) {
+            if (!canMove) return;
+            if (piece.color !== PLAYERS[currentPlayer]) return;
+            if (piece.isFinished) return;
+
+            if (piece.isHome) {
+                if (diceValue !== 6) return;
+                piece.isHome = false;
+                piece.position = 0;
+            } else {
+                const newPosition = piece.position + diceValue;
+                if (newPosition > 56) return;
+                
+                if (newPosition === 56) {
+                    piece.isFinished = true;
+                    document.getElementById('message').textContent = `${piece.color.toUpperCase()} piece reached home!`;
+                    
+                    if (pieces[piece.color].every(p => p.isFinished)) {
+                        document.getElementById('message').textContent = `${piece.color.toUpperCase()} WINS! 🎉`;
+                        canMove = false;
+                        renderPieces();
+                        return;
+                    }
+                } else {
+                    piece.position = newPosition;
+                    
+                    if (newPosition < 51) {
+                        const pathPos = PATH[piece.color][newPosition];
+                        checkCapture(piece, pathPos);
+                    }
+                }
+            }
+
+            canMove = false;
+            renderPieces();
+
+            if (diceValue === 6) {
+                document.getElementById('message').textContent = `${PLAYERS[currentPlayer].toUpperCase()} gets another turn!`;
+                setTimeout(() => {
+                    canMove = false;
+                    renderPieces();
+                }, 500);
+            } else {
+                setTimeout(nextPlayer, 500);
+            }
+        }
+
+        function checkCapture(movingPiece, position) {
+            const safeSpots = [
+                {row: 6, col: 1}, {row: 1, col: 6},
+                {row: 2, col: 8}, {row: 6, col: 12},
+                {row: 8, col: 13}, {row: 12, col: 8},
+                {row: 13, col: 6}, {row: 8, col: 2}
+            ];
+
+            if (safeSpots.some(s => s.row === position.row && s.col === position.col)) return;
+
+            PLAYERS.forEach(color => {
+                if (color === movingPiece.color) return;
+                
+                pieces[color].forEach(piece => {
+                    if (piece.isHome || piece.isFinished) return;
+                    if (piece.position >= 51) return;
+                    
+                    const piecePos = PATH[color][piece.position];
+                    if (piecePos.row === position.row && piecePos.col === position.col) {
+                        piece.isHome = true;
+                        piece.position = -1;
+                        document.getElementById('message').textContent = `${movingPiece.color.toUpperCase()} captured ${color.toUpperCase()}!`;
+                    }
+                });
+            });
+        }
+
+        function nextPlayer() {
+            currentPlayer = (currentPlayer + 1) % 4;
+            updatePlayerDisplay();
+            document.getElementById('message').textContent = `${PLAYERS[currentPlayer].toUpperCase()}'s turn - Roll the dice!`;
+            document.getElementById('dice').textContent = '🎲';
+        }
+
+        function updatePlayerDisplay() {
+            PLAYERS.forEach((color, index) => {
+                const card = document.getElementById(`player-${color}`);
+                card.classList.toggle('active', index === currentPlayer);
+            });
+        }
+
+        initGame();
+    </script>
+</body>
+</html>
