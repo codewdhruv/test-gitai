@@ -1,24 +1,7 @@
-text.txt
-  e6c7bafd873b6f04 1-4
 ---
 {
   "schema_version": "authorship/3.0.0",
-  "harness_sei_version": "0.1.0",
+  "git_ai_version": "1.1.20",
   "base_commit_sha": "88d9e15fe75b6b765ba7dae400e6a9801258beec",
-  "prompts": {
-    "e6c7bafd873b6f04": {
-      "agent_id": {
-        "tool": "cursor",
-        "id": "2a217f73-5400-4def-af56-de53a314883f",
-        "model": "unknown"
-      },
-      "human_author": "codewdhruv <me@codewdhruv.com>",
-      "messages": [],
-      "total_additions": 4,
-      "total_deletions": 3,
-      "accepted_lines": 4,
-      "overriden_lines": 0,
-      "messages_url": null
-    }
-  }
+  "prompts": {}
 }
