@@ -262,6 +262,7 @@
                 <div class="dice" id="dice" onclick="rollDice()">🎲</div>
                 <span style="color: white;">Click to roll</span>
             </div>
+            <button onclick="resetGame()" style="padding: 10px 20px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;">Reset Game</button>
         </div>
 
         <div class="board" id="board"></div>
@@ -336,6 +337,21 @@
             createBoard();
             initPieces();
             renderPieces();
+        }
+
+        /**
+         * Reset the game to initial state
+         * Clears the board and reinitializes all pieces
+         */
+        function resetGame() {
+            currentPlayer = 0;
+            diceValue = 0;
+            canMove = false;
+            initPieces();
+            renderPieces();
+            document.getElementById('dice').textContent = '🎲';
+            document.getElementById('message').textContent = 'Roll the dice to start!';
+            updatePlayerDisplay();
         }
 
         function createBoard() {
