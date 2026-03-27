@@ -303,6 +303,7 @@
     <script>
         const PLAYERS = ['red', 'green', 'yellow', 'blue'];
         const PIECES_PER_PLAYER = 4;
+        const WINNING_POSITION = 56;
         const SAFE_SPOTS = [
             { row: 6, col: 1 }, { row: 1, col: 6 },
             { row: 2, col: 8 }, { row: 6, col: 12 },
@@ -334,6 +335,7 @@
         let currentPlayer = 0;
         let diceValue = 0;
         let canMove = false;
+        let gameOver = false;
         let pieces = {};
 
         function generatePath(color) {
@@ -389,6 +391,7 @@
             currentPlayer = 0;
             diceValue = 0;
             canMove = false;
+            gameOver = false;
             initPieces();
             renderPieces();
             document.getElementById('dice').textContent = '🎲';
@@ -524,6 +527,7 @@
         }
 
         function rollDice() {
+            if (gameOver) return;
             if (canMove) return;
 
             const dice = document.getElementById('dice');
@@ -540,7 +544,7 @@
                 const hasValidMove = pieces[currentColor].some(piece => {
                     if (piece.isFinished) return false;
                     if (piece.isHome && diceValue === 6) return true;
-                    if (!piece.isHome && piece.position + diceValue <= 56) return true;
+                    if (!piece.isHome && piece.position + diceValue <= WINNING_POSITION) return true;
                     return false;
                 });
 
@@ -558,6 +562,7 @@
         }
 
         function movePiece(piece) {
+            if (gameOver) return;
             if (!canMove) return;
             if (piece.color !== PLAYERS[currentPlayer]) return;
             if (piece.isFinished) return;
@@ -568,14 +573,15 @@
                 piece.position = 0;
             } else {
                 const newPosition = piece.position + diceValue;
-                if (newPosition > 56) return;
+                if (newPosition > WINNING_POSITION) return;
                 
-                if (newPosition === 56) {
+                if (newPosition === WINNING_POSITION) {
                     piece.isFinished = true;
                     document.getElementById('message').textContent = `${piece.color.toUpperCase()} piece reached home!`;
                     
                     if (pieces[piece.color].every(p => p.isFinished)) {
                         document.getElementById('message').textContent = `${piece.color.toUpperCase()} WINS! 🎉`;
+                        gameOver = true;
                         canMove = false;
                         renderPieces();
                         return;
