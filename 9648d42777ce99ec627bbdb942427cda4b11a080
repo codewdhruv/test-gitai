@@ -1,15 +1,15 @@
 readme.txt
-  bbffc362316f8e9c 1-1
+  8e04b4c612d83f98 1-1
 ---
 {
   "schema_version": "authorship/3.0.0",
   "harness_sei_version": "0.1.0",
   "base_commit_sha": "9648d42777ce99ec627bbdb942427cda4b11a080",
   "prompts": {
-    "bbffc362316f8e9c": {
+    "8e04b4c612d83f98": {
       "agent_id": {
         "tool": "cursor",
-        "id": "6acf5b75-8039-4d1d-bc9d-5855dbffcdcd",
+        "id": "6b7bfb4f-6a30-43c5-80f5-51088be6f6e2",
         "model": "unknown"
       },
       "human_author": "codewdhruv <me@codewdhruv.com>",
