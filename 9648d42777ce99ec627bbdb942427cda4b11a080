@@ -1,7 +1,24 @@
+readme.txt
+  bbffc362316f8e9c 1-1
 ---
 {
   "schema_version": "authorship/3.0.0",
-  "git_ai_version": "1.1.20",
+  "harness_sei_version": "0.1.0",
   "base_commit_sha": "9648d42777ce99ec627bbdb942427cda4b11a080",
-  "prompts": {}
+  "prompts": {
+    "bbffc362316f8e9c": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "6acf5b75-8039-4d1d-bc9d-5855dbffcdcd",
+        "model": "unknown"
+      },
+      "human_author": "codewdhruv <me@codewdhruv.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": null
+    }
+  }
 }
