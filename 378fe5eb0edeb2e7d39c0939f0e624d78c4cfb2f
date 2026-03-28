@@ -1,0 +1,24 @@
+readme.txt
+  632babecbb97040b 1-1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "harness_sei_version": "0.1.0",
+  "base_commit_sha": "378fe5eb0edeb2e7d39c0939f0e624d78c4cfb2f",
+  "prompts": {
+    "632babecbb97040b": {
+      "agent_id": {
+        "tool": "human",
+        "id": "c63bd02d-93a8-45b6-adfe-37c300f2e9bf",
+        "model": "none"
+      },
+      "human_author": "codewdhruv <me@codewdhruv.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": null
+    }
+  }
+}
