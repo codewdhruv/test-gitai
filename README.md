@@ -36,3 +36,6 @@ A modern, interactive implementation of the classic Ludo board game built with H
 ## 📄 License
 
 Open source - feel free to modify and share!
+
+
+Adding a manual line test
