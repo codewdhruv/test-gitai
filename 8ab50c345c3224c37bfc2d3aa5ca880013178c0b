@@ -1,0 +1,24 @@
+README.md
+  a13e954157f196b8 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "harness_sei_version": "0.1.0",
+  "base_commit_sha": "8ab50c345c3224c37bfc2d3aa5ca880013178c0b",
+  "prompts": {
+    "a13e954157f196b8": {
+      "agent_id": {
+        "tool": "human",
+        "id": "3cb00587-96d8-4f1b-a1ff-4fbd4b22e41d",
+        "model": "none"
+      },
+      "human_author": "codewdhruv <me@codewdhruv.com>",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 0,
+      "accepted_lines": 3,
+      "overriden_lines": 0,
+      "messages_url": null
+    }
+  }
+}
