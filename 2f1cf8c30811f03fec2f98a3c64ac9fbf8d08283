@@ -1,0 +1,24 @@
+index.html
+  599f50e99e6b196f 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "harness_sei_version": "0.1.0",
+  "base_commit_sha": "2f1cf8c30811f03fec2f98a3c64ac9fbf8d08283",
+  "prompts": {
+    "599f50e99e6b196f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b3f54840-9f18-45cc-9f6c-2e85c4f15b86",
+        "model": "claude"
+      },
+      "human_author": "codewdhruv <me@codewdhruv.com>",
+      "messages": [],
+      "total_additions": 7,
+      "total_deletions": 3,
+      "accepted_lines": 7,
+      "overriden_lines": 0,
+      "messages_url": null
+    }
+  }
+}
